@@ -62,4 +62,4 @@ First select the data folder, then click "compute". Then the results can be plot
 
 ## License
 
-This is the super-closed STABILO license. If you only do as much as look at the files and are not part of the team, you will burn in hell.
+MIT license.
