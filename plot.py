@@ -188,10 +188,11 @@ def show(plotstring, df_Stats, rowList):
     y62List = []
     y63List = []
 #
-#  Loop over age groups:
+#  Loop over age groups: Initially used the sentence (rowList[1]), now uses loops (rowList[6])
+#  as they are performed with all competency levels.
 #
     for counter in list(range(len(classes.ageValues))):
-        if len(rowList[1][counter]) > 4:
+        if len(rowList[6][counter]) > 4:
             tuple = collectValues(df_Stats, counter,3, 4, 5, plotstring)
             if len(tuple) == 4:
                 x1List.append(tuple[0])

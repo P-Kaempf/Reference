@@ -81,6 +81,8 @@ def collateDataframes(localList):
 #
 #  Older recordings do not have a name exercise. Therefore ...
 #
+    sentList = []
+    print("Lists:", len(nameList), len(sentList), len(eleList))
     if len(nameList) > 0:
         df_name = pandas.concat(nameList, axis=0, ignore_index=True)
     else:
@@ -163,214 +165,369 @@ def timeslices(localList):
 # <5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17-20, 21-30, 31-40, 41-50, 51-60, 61-70, 71-75 and 76-80-year olds.
 #
     df_name  = localList[0]
-    df_name.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
-    df_sent = localList[1]
-    df_sent.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
-    df_word = localList[2]
-    df_word.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
-    df_ele  = localList[3]
-    df_ele.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
-    df_late = localList[4]
-    df_late.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
-    df_fron = localList[5]
-    df_fron.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
-    df_loops = localList[6]
-    df_loops.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
-#
-    df_name_5  = df_name.query('Age <  6')
-    df_name_6  = df_name.query(' 6.0 <= Age <  7')
-    df_name_7  = df_name.query(' 7.0 <= Age <  8')
-    df_name_8  = df_name.query(' 8.0 <= Age <  9')
-    df_name_9  = df_name.query(' 9.0 <= Age < 10')
-    df_name_10 = df_name.query('10.0 <= Age < 11.0')
-    df_name_11 = df_name.query('11.0 <= Age < 12.0')
-    df_name_12 = df_name.query('12.0 <= Age < 13.0')
-    df_name_13 = df_name.query('13.0 <= Age < 14.0')
-    df_name_14 = df_name.query('14.0 <= Age < 15.0')
-    df_name_15 = df_name.query('15.0 <= Age < 16.0')
-    df_name_16 = df_name.query('16.0 <= Age < 17.0')
-    df_name_17 = df_name.query('17.0 <= Age < 21.0')
-    df_name_21 = df_name.query('30.0 <= Age < 31.0')
-    df_name_31 = df_name.query('40.0 <= Age < 41.0')
-    df_name_41 = df_name.query('50.0 <= Age < 51.0')
-    df_name_51 = df_name.query('60.0 <= Age < 61.0')
-    df_name_61 = df_name.query('70.0 <= Age < 71.0')
-    df_name_71 = df_name.query('75.0 <= Age < 76.0')
-    df_name_76 = df_name.query('76.0 <= Age')
-
+    if not df_name.empty:
+        df_name.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
+        df_name_5  = df_name.query('Age <  6')
+        df_name_6  = df_name.query(' 6.0 <= Age <  7')
+        df_name_7  = df_name.query(' 7.0 <= Age <  8')
+        df_name_8  = df_name.query(' 8.0 <= Age <  9')
+        df_name_9  = df_name.query(' 9.0 <= Age < 10')
+        df_name_10 = df_name.query('10.0 <= Age < 11.0')
+        df_name_11 = df_name.query('11.0 <= Age < 12.0')
+        df_name_12 = df_name.query('12.0 <= Age < 13.0')
+        df_name_13 = df_name.query('13.0 <= Age < 14.0')
+        df_name_14 = df_name.query('14.0 <= Age < 15.0')
+        df_name_15 = df_name.query('15.0 <= Age < 16.0')
+        df_name_16 = df_name.query('16.0 <= Age < 17.0')
+        df_name_17 = df_name.query('17.0 <= Age < 21.0')
+        df_name_21 = df_name.query('30.0 <= Age < 31.0')
+        df_name_31 = df_name.query('40.0 <= Age < 41.0')
+        df_name_41 = df_name.query('50.0 <= Age < 51.0')
+        df_name_51 = df_name.query('60.0 <= Age < 61.0')
+        df_name_61 = df_name.query('70.0 <= Age < 71.0')
+        df_name_71 = df_name.query('75.0 <= Age < 76.0')
+        df_name_76 = df_name.query('76.0 <= Age')
+    else:
+        df_name_5  = pandas.DataFrame()
+        df_name_6  = pandas.DataFrame()
+        df_name_7  = pandas.DataFrame()
+        df_name_8  = pandas.DataFrame()
+        df_name_9  = pandas.DataFrame()
+        df_name_10 = pandas.DataFrame()
+        df_name_11 = pandas.DataFrame()
+        df_name_12 = pandas.DataFrame()
+        df_name_13 = pandas.DataFrame()
+        df_name_14 = pandas.DataFrame()
+        df_name_15 = pandas.DataFrame()
+        df_name_16 = pandas.DataFrame()
+        df_name_17 = pandas.DataFrame()
+        df_name_21 = pandas.DataFrame()
+        df_name_31 = pandas.DataFrame()
+        df_name_41 = pandas.DataFrame()
+        df_name_51 = pandas.DataFrame()
+        df_name_61 = pandas.DataFrame()
+        df_name_71 = pandas.DataFrame()
+        df_name_76 = pandas.DataFrame()
+    
     nameRowList = [df_name_5.index,  df_name_6.index,  df_name_7.index,  df_name_8.index,
                    df_name_9.index,  df_name_10.index, df_name_11.index, df_name_12.index,
                    df_name_13.index, df_name_14.index, df_name_15.index, df_name_16.index,
                    df_name_17.index, df_name_21.index, df_name_31.index, df_name_41.index,
                    df_name_51.index, df_name_61.index, df_name_71.index, df_name_76.index]
 #
-    df_sent_5  = df_sent.query('Age <  6')
-    df_sent_6  = df_sent.query(' 6.0 <= Age <  7')
-    df_sent_7  = df_sent.query(' 7.0 <= Age <  8')
-    df_sent_8  = df_sent.query(' 8.0 <= Age <  9')
-    df_sent_9  = df_sent.query(' 9.0 <= Age < 10')
-    df_sent_10 = df_sent.query('10.0 <= Age < 11.0')
-    df_sent_11 = df_sent.query('11.0 <= Age < 12.0')
-    df_sent_12 = df_sent.query('12.0 <= Age < 13.0')
-    df_sent_13 = df_sent.query('13.0 <= Age < 14.0')
-    df_sent_14 = df_sent.query('14.0 <= Age < 15.0')
-    df_sent_15 = df_sent.query('15.0 <= Age < 16.0')
-    df_sent_16 = df_sent.query('16.0 <= Age < 17.0')
-    df_sent_17 = df_sent.query('17.0 <= Age < 21.0')
-    df_sent_21 = df_sent.query('30.0 <= Age < 31.0')
-    df_sent_31 = df_sent.query('40.0 <= Age < 41.0')
-    df_sent_41 = df_sent.query('50.0 <= Age < 51.0')
-    df_sent_51 = df_sent.query('60.0 <= Age < 61.0')
-    df_sent_61 = df_sent.query('70.0 <= Age < 71.0')
-    df_sent_71 = df_sent.query('75.0 <= Age < 76.0')
-    df_sent_76 = df_sent.query('76.0 <= Age')
-
-    ui.progressUpdate('-Pro-', int(5200))
+    df_sent = localList[1]
+    if not df_sent.empty:
+        df_sent.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
+        df_sent_5  = df_sent.query('Age <  6')
+        df_sent_6  = df_sent.query(' 6.0 <= Age <  7')
+        df_sent_7  = df_sent.query(' 7.0 <= Age <  8')
+        df_sent_8  = df_sent.query(' 8.0 <= Age <  9')
+        df_sent_9  = df_sent.query(' 9.0 <= Age < 10')
+        df_sent_10 = df_sent.query('10.0 <= Age < 11.0')
+        df_sent_11 = df_sent.query('11.0 <= Age < 12.0')
+        df_sent_12 = df_sent.query('12.0 <= Age < 13.0')
+        df_sent_13 = df_sent.query('13.0 <= Age < 14.0')
+        df_sent_14 = df_sent.query('14.0 <= Age < 15.0')
+        df_sent_15 = df_sent.query('15.0 <= Age < 16.0')
+        df_sent_16 = df_sent.query('16.0 <= Age < 17.0')
+        df_sent_17 = df_sent.query('17.0 <= Age < 21.0')
+        df_sent_21 = df_sent.query('30.0 <= Age < 31.0')
+        df_sent_31 = df_sent.query('40.0 <= Age < 41.0')
+        df_sent_41 = df_sent.query('50.0 <= Age < 51.0')
+        df_sent_51 = df_sent.query('60.0 <= Age < 61.0')
+        df_sent_61 = df_sent.query('70.0 <= Age < 71.0')
+        df_sent_71 = df_sent.query('75.0 <= Age < 76.0')
+        df_sent_76 = df_sent.query('76.0 <= Age')
+    else:
+        df_sent_5  = pandas.DataFrame()
+        df_sent_6  = pandas.DataFrame()
+        df_sent_7  = pandas.DataFrame()
+        df_sent_8  = pandas.DataFrame()
+        df_sent_9  = pandas.DataFrame()
+        df_sent_10 = pandas.DataFrame()
+        df_sent_11 = pandas.DataFrame()
+        df_sent_12 = pandas.DataFrame()
+        df_sent_13 = pandas.DataFrame()
+        df_sent_14 = pandas.DataFrame()
+        df_sent_15 = pandas.DataFrame()
+        df_sent_16 = pandas.DataFrame()
+        df_sent_17 = pandas.DataFrame()
+        df_sent_21 = pandas.DataFrame()
+        df_sent_31 = pandas.DataFrame()
+        df_sent_41 = pandas.DataFrame()
+        df_sent_51 = pandas.DataFrame()
+        df_sent_61 = pandas.DataFrame()
+        df_sent_71 = pandas.DataFrame()
+        df_sent_76 = pandas.DataFrame()
 
     sentRowList = [df_sent_5.index,  df_sent_6.index,  df_sent_7.index,  df_sent_8.index,
                    df_sent_9.index,  df_sent_10.index, df_sent_11.index, df_sent_12.index,
                    df_sent_13.index, df_sent_14.index, df_sent_15.index, df_sent_16.index,
                    df_sent_17.index, df_sent_21.index, df_sent_31.index, df_sent_41.index,
                    df_sent_51.index, df_sent_61.index, df_sent_71.index, df_sent_76.index]
-
-    df_word_5  = df_word.query('Age <  6')
-    df_word_6  = df_word.query(' 6.0 <= Age <  7')
-    df_word_7  = df_word.query(' 7.0 <= Age <  8')
-    df_word_8  = df_word.query(' 8.0 <= Age <  9')
-    df_word_9  = df_word.query(' 9.0 <= Age < 10')
-    df_word_10 = df_word.query('10.0 <= Age < 11.0')
-    df_word_11 = df_word.query('11.0 <= Age < 12.0')
-    df_word_12 = df_word.query('12.0 <= Age < 13.0')
-    df_word_13 = df_word.query('13.0 <= Age < 14.0')
-    df_word_14 = df_word.query('14.0 <= Age < 15.0')
-    df_word_15 = df_word.query('15.0 <= Age < 16.0')
-    df_word_16 = df_word.query('16.0 <= Age < 17.0')
-    df_word_17 = df_word.query('17.0 <= Age < 21.0')
-    df_word_21 = df_word.query('30.0 <= Age < 31.0')
-    df_word_31 = df_word.query('40.0 <= Age < 41.0')
-    df_word_41 = df_word.query('50.0 <= Age < 51.0')
-    df_word_51 = df_word.query('60.0 <= Age < 61.0')
-    df_word_61 = df_word.query('70.0 <= Age < 71.0')
-    df_word_71 = df_word.query('75.0 <= Age < 76.0')
-    df_word_76 = df_word.query('76.0 <= Age')
+    
+    ui.progressUpdate('-Pro-', int(5200))
+#
+    df_word = localList[2]
+    if not df_word.empty:
+        df_word.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
+        df_word_5  = df_word.query('Age <  6')
+        df_word_6  = df_word.query(' 6.0 <= Age <  7')
+        df_word_7  = df_word.query(' 7.0 <= Age <  8')
+        df_word_8  = df_word.query(' 8.0 <= Age <  9')
+        df_word_9  = df_word.query(' 9.0 <= Age < 10')
+        df_word_10 = df_word.query('10.0 <= Age < 11.0')
+        df_word_11 = df_word.query('11.0 <= Age < 12.0')
+        df_word_12 = df_word.query('12.0 <= Age < 13.0')
+        df_word_13 = df_word.query('13.0 <= Age < 14.0')
+        df_word_14 = df_word.query('14.0 <= Age < 15.0')
+        df_word_15 = df_word.query('15.0 <= Age < 16.0')
+        df_word_16 = df_word.query('16.0 <= Age < 17.0')
+        df_word_17 = df_word.query('17.0 <= Age < 21.0')
+        df_word_21 = df_word.query('30.0 <= Age < 31.0')
+        df_word_31 = df_word.query('40.0 <= Age < 41.0')
+        df_word_41 = df_word.query('50.0 <= Age < 51.0')
+        df_word_51 = df_word.query('60.0 <= Age < 61.0')
+        df_word_61 = df_word.query('70.0 <= Age < 71.0')
+        df_word_71 = df_word.query('75.0 <= Age < 76.0')
+        df_word_76 = df_word.query('76.0 <= Age')
+    else:
+        df_word_5  = pandas.DataFrame()
+        df_word_6  = pandas.DataFrame()
+        df_word_7  = pandas.DataFrame()
+        df_word_8  = pandas.DataFrame()
+        df_word_9  = pandas.DataFrame()
+        df_word_10 = pandas.DataFrame()
+        df_word_11 = pandas.DataFrame()
+        df_word_12 = pandas.DataFrame()
+        df_word_13 = pandas.DataFrame()
+        df_word_14 = pandas.DataFrame()
+        df_word_15 = pandas.DataFrame()
+        df_word_16 = pandas.DataFrame()
+        df_word_17 = pandas.DataFrame()
+        df_word_21 = pandas.DataFrame()
+        df_word_31 = pandas.DataFrame()
+        df_word_41 = pandas.DataFrame()
+        df_word_51 = pandas.DataFrame()
+        df_word_61 = pandas.DataFrame()
+        df_word_71 = pandas.DataFrame()
+        df_word_76 = pandas.DataFrame()
 
     wordRowList = [df_word_5.index,  df_word_6.index,  df_word_7.index,  df_word_8.index,
                    df_word_9.index,  df_word_10.index, df_word_11.index, df_word_12.index,
                    df_word_13.index, df_word_14.index, df_word_15.index, df_word_16.index,
                    df_word_17.index, df_word_21.index, df_word_31.index, df_word_41.index,
                    df_word_51.index, df_word_61.index, df_word_71.index, df_word_76.index]
-
-    df_ele_5  = df_ele.query('Age <  6')
-    df_ele_6  = df_ele.query(' 6.0 <= Age <  7')
-    df_ele_7  = df_ele.query(' 7.0 <= Age <  8')
-    df_ele_8  = df_ele.query(' 8.0 <= Age <  9')
-    df_ele_9  = df_ele.query(' 9.0 <= Age < 10')
-    df_ele_10 = df_ele.query('10.0 <= Age < 11.0')
-    df_ele_11 = df_ele.query('11.0 <= Age < 12.0')
-    df_ele_12 = df_ele.query('12.0 <= Age < 13.0')
-    df_ele_13 = df_ele.query('13.0 <= Age < 14.0')
-    df_ele_14 = df_ele.query('14.0 <= Age < 15.0')
-    df_ele_15 = df_ele.query('15.0 <= Age < 16.0')
-    df_ele_16 = df_ele.query('16.0 <= Age < 17.0')
-    df_ele_17 = df_ele.query('17.0 <= Age < 21.0')
-    df_ele_21 = df_ele.query('30.0 <= Age < 31.0')
-    df_ele_31 = df_ele.query('40.0 <= Age < 41.0')
-    df_ele_41 = df_ele.query('50.0 <= Age < 51.0')
-    df_ele_51 = df_ele.query('60.0 <= Age < 61.0')
-    df_ele_61 = df_ele.query('70.0 <= Age < 71.0')
-    df_ele_71 = df_ele.query('75.0 <= Age < 76.0')
-    df_ele_76 = df_ele.query('76.0 <= Age')
-
-    ui.progressUpdate('-Pro-', int(5400))
+#
+    df_ele  = localList[3]
+    if not df_ele.empty:
+        df_ele.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
+        df_ele_5  = df_ele.query('Age <  6')
+        df_ele_6  = df_ele.query(' 6.0 <= Age <  7')
+        df_ele_7  = df_ele.query(' 7.0 <= Age <  8')
+        df_ele_8  = df_ele.query(' 8.0 <= Age <  9')
+        df_ele_9  = df_ele.query(' 9.0 <= Age < 10')
+        df_ele_10 = df_ele.query('10.0 <= Age < 11.0')
+        df_ele_11 = df_ele.query('11.0 <= Age < 12.0')
+        df_ele_12 = df_ele.query('12.0 <= Age < 13.0')
+        df_ele_13 = df_ele.query('13.0 <= Age < 14.0')
+        df_ele_14 = df_ele.query('14.0 <= Age < 15.0')
+        df_ele_15 = df_ele.query('15.0 <= Age < 16.0')
+        df_ele_16 = df_ele.query('16.0 <= Age < 17.0')
+        df_ele_17 = df_ele.query('17.0 <= Age < 21.0')
+        df_ele_21 = df_ele.query('30.0 <= Age < 31.0')
+        df_ele_31 = df_ele.query('40.0 <= Age < 41.0')
+        df_ele_41 = df_ele.query('50.0 <= Age < 51.0')
+        df_ele_51 = df_ele.query('60.0 <= Age < 61.0')
+        df_ele_61 = df_ele.query('70.0 <= Age < 71.0')
+        df_ele_71 = df_ele.query('75.0 <= Age < 76.0')
+        df_ele_76 = df_ele.query('76.0 <= Age')
+    else:
+        df_ele_5  = pandas.DataFrame()
+        df_ele_6  = pandas.DataFrame()
+        df_ele_7  = pandas.DataFrame()
+        df_ele_8  = pandas.DataFrame()
+        df_ele_9  = pandas.DataFrame()
+        df_ele_10 = pandas.DataFrame()
+        df_ele_11 = pandas.DataFrame()
+        df_ele_12 = pandas.DataFrame()
+        df_ele_13 = pandas.DataFrame()
+        df_ele_14 = pandas.DataFrame()
+        df_ele_15 = pandas.DataFrame()
+        df_ele_16 = pandas.DataFrame()
+        df_ele_17 = pandas.DataFrame()
+        df_ele_21 = pandas.DataFrame()
+        df_ele_31 = pandas.DataFrame()
+        df_ele_41 = pandas.DataFrame()
+        df_ele_51 = pandas.DataFrame()
+        df_ele_61 = pandas.DataFrame()
+        df_ele_71 = pandas.DataFrame()
+        df_ele_76 = pandas.DataFrame()
 
     eleRowList = [df_ele_5.index,  df_ele_6.index,  df_ele_7.index,  df_ele_8.index,
                   df_ele_9.index,  df_ele_10.index, df_ele_11.index, df_ele_12.index,
                   df_ele_13.index, df_ele_14.index, df_ele_15.index, df_ele_16.index,
                   df_ele_17.index, df_ele_21.index, df_ele_31.index, df_ele_41.index,
                   df_ele_51.index, df_ele_61.index, df_ele_71.index, df_ele_76.index]
-
-    df_late_5  = df_late.query('Age <  6')
-    df_late_6  = df_late.query(' 6.0 <= Age <  7')
-    df_late_7  = df_late.query(' 7.0 <= Age <  8')
-    df_late_8  = df_late.query(' 8.0 <= Age <  9')
-    df_late_9  = df_late.query(' 9.0 <= Age < 10')
-    df_late_10 = df_late.query('10.0 <= Age < 11.0')
-    df_late_11 = df_late.query('11.0 <= Age < 12.0')
-    df_late_12 = df_late.query('12.0 <= Age < 13.0')
-    df_late_13 = df_late.query('13.0 <= Age < 14.0')
-    df_late_14 = df_late.query('14.0 <= Age < 15.0')
-    df_late_15 = df_late.query('15.0 <= Age < 16.0')
-    df_late_16 = df_late.query('16.0 <= Age < 17.0')
-    df_late_17 = df_late.query('17.0 <= Age < 21.0')
-    df_late_21 = df_late.query('30.0 <= Age < 31.0')
-    df_late_31 = df_late.query('40.0 <= Age < 41.0')
-    df_late_41 = df_late.query('50.0 <= Age < 51.0')
-    df_late_51 = df_late.query('60.0 <= Age < 61.0')
-    df_late_61 = df_late.query('70.0 <= Age < 71.0')
-    df_late_71 = df_late.query('75.0 <= Age < 76.0')
-    df_late_76 = df_late.query('76.0 <= Age')
+    
+    ui.progressUpdate('-Pro-', int(5400))
+#
+    df_late = localList[4]
+    if not df_late.empty:
+        df_late.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
+        df_late_5  = df_late.query('Age <  6')
+        df_late_6  = df_late.query(' 6.0 <= Age <  7')
+        df_late_7  = df_late.query(' 7.0 <= Age <  8')
+        df_late_8  = df_late.query(' 8.0 <= Age <  9')
+        df_late_9  = df_late.query(' 9.0 <= Age < 10')
+        df_late_10 = df_late.query('10.0 <= Age < 11.0')
+        df_late_11 = df_late.query('11.0 <= Age < 12.0')
+        df_late_12 = df_late.query('12.0 <= Age < 13.0')
+        df_late_13 = df_late.query('13.0 <= Age < 14.0')
+        df_late_14 = df_late.query('14.0 <= Age < 15.0')
+        df_late_15 = df_late.query('15.0 <= Age < 16.0')
+        df_late_16 = df_late.query('16.0 <= Age < 17.0')
+        df_late_17 = df_late.query('17.0 <= Age < 21.0')
+        df_late_21 = df_late.query('30.0 <= Age < 31.0')
+        df_late_31 = df_late.query('40.0 <= Age < 41.0')
+        df_late_41 = df_late.query('50.0 <= Age < 51.0')
+        df_late_51 = df_late.query('60.0 <= Age < 61.0')
+        df_late_61 = df_late.query('70.0 <= Age < 71.0')
+        df_late_71 = df_late.query('75.0 <= Age < 76.0')
+        df_late_76 = df_late.query('76.0 <= Age')
+    else:
+        df_late_5  = pandas.DataFrame()
+        df_late_6  = pandas.DataFrame()
+        df_late_7  = pandas.DataFrame()
+        df_late_8  = pandas.DataFrame()
+        df_late_9  = pandas.DataFrame()
+        df_late_10 = pandas.DataFrame()
+        df_late_11 = pandas.DataFrame()
+        df_late_12 = pandas.DataFrame()
+        df_late_13 = pandas.DataFrame()
+        df_late_14 = pandas.DataFrame()
+        df_late_15 = pandas.DataFrame()
+        df_late_16 = pandas.DataFrame()
+        df_late_17 = pandas.DataFrame()
+        df_late_21 = pandas.DataFrame()
+        df_late_31 = pandas.DataFrame()
+        df_late_41 = pandas.DataFrame()
+        df_late_51 = pandas.DataFrame()
+        df_late_61 = pandas.DataFrame()
+        df_late_71 = pandas.DataFrame()
+        df_late_76 = pandas.DataFrame()
 
     lateRowList = [df_late_5.index,  df_late_6.index,  df_late_7.index,  df_late_8.index,
                    df_late_9.index,  df_late_10.index, df_late_11.index, df_late_12.index,
                    df_late_13.index, df_late_14.index, df_late_15.index, df_late_16.index,
                    df_late_17.index, df_late_21.index, df_late_31.index, df_late_41.index,
                    df_late_51.index, df_late_61.index, df_late_71.index, df_late_76.index]
-
-    df_fron_5  = df_fron.query('Age <  6')
-    df_fron_6  = df_fron.query(' 6.0 <= Age <  7')
-    df_fron_7  = df_fron.query(' 7.0 <= Age <  8')
-    df_fron_8  = df_fron.query(' 8.0 <= Age <  9')
-    df_fron_9  = df_fron.query(' 9.0 <= Age < 10')
-    df_fron_10 = df_fron.query('10.0 <= Age < 11.0')
-    df_fron_11 = df_fron.query('11.0 <= Age < 12.0')
-    df_fron_12 = df_fron.query('12.0 <= Age < 13.0')
-    df_fron_13 = df_fron.query('13.0 <= Age < 14.0')
-    df_fron_14 = df_fron.query('14.0 <= Age < 15.0')
-    df_fron_15 = df_fron.query('15.0 <= Age < 16.0')
-    df_fron_16 = df_fron.query('16.0 <= Age < 17.0')
-    df_fron_17 = df_fron.query('17.0 <= Age < 21.0')
-    df_fron_21 = df_fron.query('30.0 <= Age < 31.0')
-    df_fron_31 = df_fron.query('40.0 <= Age < 41.0')
-    df_fron_41 = df_fron.query('50.0 <= Age < 51.0')
-    df_fron_51 = df_fron.query('60.0 <= Age < 61.0')
-    df_fron_61 = df_fron.query('70.0 <= Age < 71.0')
-    df_fron_71 = df_fron.query('75.0 <= Age < 76.0')
-    df_fron_76 = df_fron.query('76.0 <= Age')
-
-    ui.progressUpdate('-Pro-', int(5600))
+#
+    df_fron = localList[5]
+    fronRowList = []
+    if not df_fron.empty:
+        df_fron.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
+        df_fron_5  = df_fron.query('Age <  6')
+        df_fron_6  = df_fron.query(' 6.0 <= Age <  7')
+        df_fron_7  = df_fron.query(' 7.0 <= Age <  8')
+        df_fron_8  = df_fron.query(' 8.0 <= Age <  9')
+        df_fron_9  = df_fron.query(' 9.0 <= Age < 10')
+        df_fron_10 = df_fron.query('10.0 <= Age < 11.0')
+        df_fron_11 = df_fron.query('11.0 <= Age < 12.0')
+        df_fron_12 = df_fron.query('12.0 <= Age < 13.0')
+        df_fron_13 = df_fron.query('13.0 <= Age < 14.0')
+        df_fron_14 = df_fron.query('14.0 <= Age < 15.0')
+        df_fron_15 = df_fron.query('15.0 <= Age < 16.0')
+        df_fron_16 = df_fron.query('16.0 <= Age < 17.0')
+        df_fron_17 = df_fron.query('17.0 <= Age < 21.0')
+        df_fron_21 = df_fron.query('30.0 <= Age < 31.0')
+        df_fron_31 = df_fron.query('40.0 <= Age < 41.0')
+        df_fron_41 = df_fron.query('50.0 <= Age < 51.0')
+        df_fron_51 = df_fron.query('60.0 <= Age < 61.0')
+        df_fron_61 = df_fron.query('70.0 <= Age < 71.0')
+        df_fron_71 = df_fron.query('75.0 <= Age < 76.0')
+        df_fron_76 = df_fron.query('76.0 <= Age')
+    else:
+        df_fron_5  = pandas.DataFrame()
+        df_fron_6  = pandas.DataFrame()
+        df_fron_7  = pandas.DataFrame()
+        df_fron_8  = pandas.DataFrame()
+        df_fron_9  = pandas.DataFrame()
+        df_fron_10 = pandas.DataFrame()
+        df_fron_11 = pandas.DataFrame()
+        df_fron_12 = pandas.DataFrame()
+        df_fron_13 = pandas.DataFrame()
+        df_fron_14 = pandas.DataFrame()
+        df_fron_15 = pandas.DataFrame()
+        df_fron_16 = pandas.DataFrame()
+        df_fron_17 = pandas.DataFrame()
+        df_fron_21 = pandas.DataFrame()
+        df_fron_31 = pandas.DataFrame()
+        df_fron_41 = pandas.DataFrame()
+        df_fron_51 = pandas.DataFrame()
+        df_fron_61 = pandas.DataFrame()
+        df_fron_71 = pandas.DataFrame()
+        df_fron_76 = pandas.DataFrame()
 
     fronRowList = [df_fron_5.index,  df_fron_6.index,  df_fron_7.index,  df_fron_8.index,
                    df_fron_9.index,  df_fron_10.index, df_fron_11.index, df_fron_12.index,
                    df_fron_13.index, df_fron_14.index, df_fron_15.index, df_fron_16.index,
                    df_fron_17.index, df_fron_21.index, df_fron_31.index, df_fron_41.index,
                    df_fron_51.index, df_fron_61.index, df_fron_71.index, df_fron_76.index]
-
-    df_loops_5  = df_loops.query('Age <  6')
-    df_loops_6  = df_loops.query(' 6.0 <= Age <  7')
-    df_loops_7  = df_loops.query(' 7.0 <= Age <  8')
-    df_loops_8  = df_loops.query(' 8.0 <= Age <  9')
-    df_loops_9  = df_loops.query(' 9.0 <= Age < 10')
-    df_loops_10 = df_loops.query('10.0 <= Age < 11.0')
-    df_loops_11 = df_loops.query('11.0 <= Age < 12.0')
-    df_loops_12 = df_loops.query('12.0 <= Age < 13.0')
-    df_loops_13 = df_loops.query('13.0 <= Age < 14.0')
-    df_loops_14 = df_loops.query('14.0 <= Age < 15.0')
-    df_loops_15 = df_loops.query('15.0 <= Age < 16.0')
-    df_loops_16 = df_loops.query('16.0 <= Age < 17.0')
-    df_loops_17 = df_loops.query('17.0 <= Age < 21.0')
-    df_loops_21 = df_loops.query('30.0 <= Age < 31.0')
-    df_loops_31 = df_loops.query('40.0 <= Age < 41.0')
-    df_loops_41 = df_loops.query('50.0 <= Age < 51.0')
-    df_loops_51 = df_loops.query('60.0 <= Age < 61.0')
-    df_loops_61 = df_loops.query('70.0 <= Age < 71.0')
-    df_loops_71 = df_loops.query('75.0 <= Age < 76.0')
-    df_loops_76 = df_loops.query('76.0 <= Age')
+    
+    ui.progressUpdate('-Pro-', int(5600))
+#
+    df_loops = localList[6]
+    if not df_loops.empty:
+        df_loops.sort_values(by=['Age'], axis=0, inplace=True, ignore_index=True)
+        df_loops_5  = df_loops.query('Age <  6')
+        df_loops_6  = df_loops.query(' 6.0 <= Age <  7')
+        df_loops_7  = df_loops.query(' 7.0 <= Age <  8')
+        df_loops_8  = df_loops.query(' 8.0 <= Age <  9')
+        df_loops_9  = df_loops.query(' 9.0 <= Age < 10')
+        df_loops_10 = df_loops.query('10.0 <= Age < 11.0')
+        df_loops_11 = df_loops.query('11.0 <= Age < 12.0')
+        df_loops_12 = df_loops.query('12.0 <= Age < 13.0')
+        df_loops_13 = df_loops.query('13.0 <= Age < 14.0')
+        df_loops_14 = df_loops.query('14.0 <= Age < 15.0')
+        df_loops_15 = df_loops.query('15.0 <= Age < 16.0')
+        df_loops_16 = df_loops.query('16.0 <= Age < 17.0')
+        df_loops_17 = df_loops.query('17.0 <= Age < 21.0')
+        df_loops_21 = df_loops.query('30.0 <= Age < 31.0')
+        df_loops_31 = df_loops.query('40.0 <= Age < 41.0')
+        df_loops_41 = df_loops.query('50.0 <= Age < 51.0')
+        df_loops_51 = df_loops.query('60.0 <= Age < 61.0')
+        df_loops_61 = df_loops.query('70.0 <= Age < 71.0')
+        df_loops_71 = df_loops.query('75.0 <= Age < 76.0')
+        df_loops_76 = df_loops.query('76.0 <= Age')
+    else:
+        df_loops_5  = pandas.DataFrame()
+        df_loops_6  = pandas.DataFrame()
+        df_loops_7  = pandas.DataFrame()
+        df_loops_8  = pandas.DataFrame()
+        df_loops_9  = pandas.DataFrame()
+        df_loops_10 = pandas.DataFrame()
+        df_loops_11 = pandas.DataFrame()
+        df_loops_12 = pandas.DataFrame()
+        df_loops_13 = pandas.DataFrame()
+        df_loops_14 = pandas.DataFrame()
+        df_loops_15 = pandas.DataFrame()
+        df_loops_16 = pandas.DataFrame()
+        df_loops_17 = pandas.DataFrame()
+        df_loops_21 = pandas.DataFrame()
+        df_loops_31 = pandas.DataFrame()
+        df_loops_41 = pandas.DataFrame()
+        df_loops_51 = pandas.DataFrame()
+        df_loops_61 = pandas.DataFrame()
+        df_loops_71 = pandas.DataFrame()
+        df_loops_76 = pandas.DataFrame()
 
     loopsRowList = [df_loops_5.index,  df_loops_6.index,  df_loops_7.index,  df_loops_8.index,
                     df_loops_9.index,  df_loops_10.index, df_loops_11.index, df_loops_12.index,
                     df_loops_13.index, df_loops_14.index, df_loops_15.index, df_loops_16.index,
                     df_loops_17.index, df_loops_21.index, df_loops_31.index, df_loops_41.index,
                     df_loops_51.index, df_loops_61.index, df_loops_71.index, df_loops_76.index]
+#
     ageList_5  = statistics([df_name_5 , df_sent_5 , df_word_5 , df_ele_5 , df_late_5 , df_fron_5 , df_loops_5 ])
     ageList_6  = statistics([df_name_6 , df_sent_6 , df_word_6 , df_ele_6 , df_late_6 , df_fron_6 , df_loops_6 ])
     ui.progressUpdate('-Pro-', int(5900))
@@ -448,40 +605,75 @@ def splitGenders(localList):
 #
 #  Makes it possible to call statistics from everywhere
 #
-    sorted = localList[0].groupby(localList[0].Gender)
-    dfFemaName = get_group(sorted, "w")
-    dfMaleName = get_group(sorted, "m")
-    dfUnknName = get_group(sorted, "u")
+    if localList[0].empty:
+        dfFemaName = pandas.DataFrame()
+        dfMaleName = pandas.DataFrame()
+        dfUnknName = pandas.DataFrame()
+    else:
+        sorted = localList[0].groupby(localList[0].Gender)
+        dfFemaName = get_group(sorted, "w")
+        dfMaleName = get_group(sorted, "m")
+        dfUnknName = get_group(sorted, "u")
 
-    sorted = localList[1].groupby(localList[1].Gender)
-    dfFemaSentence = get_group(sorted, "w")
-    dfMaleSentence = get_group(sorted, "m")
-    dfUnknSentence = get_group(sorted, "u")
+    if localList[1].empty:
+        dfFemaSentence = pandas.DataFrame()
+        dfMaleSentence = pandas.DataFrame()
+        dfUnknSentence = pandas.DataFrame()
+    else:
+        sorted = localList[1].groupby(localList[1].Gender)
+        dfFemaSentence = get_group(sorted, "w")
+        dfMaleSentence = get_group(sorted, "m")
+        dfUnknSentence = get_group(sorted, "u")
 
-    sorted = localList[2].groupby(localList[2].Gender)
-    dfFemaWord = get_group(sorted, "w")
-    dfMaleWord = get_group(sorted, "m")
-    dfUnknWord = get_group(sorted, "u")
+    if localList[2].empty:
+        dfFemaWord = pandas.DataFrame()
+        dfMaleWord = pandas.DataFrame()
+        dfUnknWord = pandas.DataFrame()
+    else:
+        sorted = localList[2].groupby(localList[2].Gender)
+        dfFemaWord = get_group(sorted, "w")
+        dfMaleWord = get_group(sorted, "m")
+        dfUnknWord = get_group(sorted, "u")
 
-    sorted = localList[3].groupby(localList[3].Gender)
-    dfFemaEle = get_group(sorted, "w")
-    dfMaleEle = get_group(sorted, "m")
-    dfUnknEle = get_group(sorted, "u")
+    if localList[3].empty:
+        dfFemaEle = pandas.DataFrame()
+        dfMaleEle = pandas.DataFrame()
+        dfUnknEle = pandas.DataFrame()
+    else:
+        sorted = localList[3].groupby(localList[3].Gender)
+        dfFemaEle = get_group(sorted, "w")
+        dfMaleEle = get_group(sorted, "m")
+        dfUnknEle = get_group(sorted, "u")
 
-    sorted = localList[4].groupby(localList[4].Gender)
-    dfFemaLateral = get_group(sorted, "w")
-    dfMaleLateral = get_group(sorted, "m")
-    dfUnknLateral = get_group(sorted, "u")
+    if localList[4].empty:
+        dfFemaLateral = pandas.DataFrame()
+        dfMaleLateral = pandas.DataFrame()
+        dfUnknLateral = pandas.DataFrame()
+    else:
+        sorted = localList[4].groupby(localList[4].Gender)
+        dfFemaLateral = get_group(sorted, "w")
+        dfMaleLateral = get_group(sorted, "m")
+        dfUnknLateral = get_group(sorted, "u")
 
-    sorted = localList[5].groupby(localList[5].Gender)
-    dfFemaFrontal = get_group(sorted, "w")
-    dfMaleFrontal = get_group(sorted, "m")
-    dfUnknFrontal = get_group(sorted, "u")
+    if localList[5].empty:
+        dfFemaFrontal = pandas.DataFrame()
+        dfMaleFrontal = pandas.DataFrame()
+        dfUnknFrontal = pandas.DataFrame()
+    else:
+        sorted = localList[5].groupby(localList[5].Gender)
+        dfFemaFrontal = get_group(sorted, "w")
+        dfMaleFrontal = get_group(sorted, "m")
+        dfUnknFrontal = get_group(sorted, "u")
 
-    sorted = localList[6].groupby(localList[6].Gender)
-    dfFemaLoops = get_group(sorted, "w")
-    dfMaleLoops = get_group(sorted, "m")
-    dfUnknLoops = get_group(sorted, "u")
+    if localList[6].empty:
+        dfFemaLoops = pandas.DataFrame()
+        dfMaleLoops = pandas.DataFrame()
+        dfUnknLoops = pandas.DataFrame()
+    else:
+        sorted = localList[6].groupby(localList[6].Gender)
+        dfFemaLoops = get_group(sorted, "w")
+        dfMaleLoops = get_group(sorted, "m")
+        dfUnknLoops = get_group(sorted, "u")
     
     femaList = [dfFemaName, dfFemaSentence, dfFemaWord, dfFemaEle, dfFemaLateral, dfFemaFrontal, dfFemaLoops]
     maleList = [dfMaleName, dfMaleSentence, dfMaleWord, dfMaleEle, dfMaleLateral, dfMaleFrontal, dfMaleLoops]
@@ -525,41 +717,76 @@ def splitHanded(localList):
 #
 #  Makes it possible to call statistics from everywhere
 #
-    sorted = localList[0].groupby(localList[0].Handed)
-    dfRightName = get_group(sorted, "r")
-    dfLeftName  = get_group(sorted, "l")
-    dfUnknName  = get_group(sorted, "u")
+    if len(localList[0]) > 0:
+        sorted = localList[0].groupby(localList[0].Handed)
+        dfRightName = get_group(sorted, "r")
+        dfLeftName  = get_group(sorted, "l")
+        dfUnknName  = get_group(sorted, "u")
+    else:
+        dfRightName = pandas.DataFrame()
+        dfLeftName  = pandas.DataFrame()
+        dfUnknName  = pandas.DataFrame()
 
-    sorted = localList[1].groupby(localList[1].Handed)
-    dfRightSentence = get_group(sorted, "r")
-    dfLeftSentence  = get_group(sorted, "l")
-    dfUnknSentence  = get_group(sorted, "u")
+    if len(localList[1]) > 0:
+        sorted = localList[1].groupby(localList[1].Handed)
+        dfRightSentence = get_group(sorted, "r")
+        dfLeftSentence  = get_group(sorted, "l")
+        dfUnknSentence  = get_group(sorted, "u")
+    else:
+        dfRightSentence = pandas.DataFrame()
+        dfLeftSentence  = pandas.DataFrame()
+        dfUnknSentence  = pandas.DataFrame()
 
-    sorted = localList[2].groupby(localList[2].Handed)
-    dfRightWord = get_group(sorted, "r")
-    dfLeftWord  = get_group(sorted, "l")
-    dfUnknWord  = get_group(sorted, "u")
+    if len(localList[2]) > 0:
+        sorted = localList[2].groupby(localList[2].Handed)
+        dfRightWord = get_group(sorted, "r")
+        dfLeftWord  = get_group(sorted, "l")
+        dfUnknWord  = get_group(sorted, "u")
+    else:
+        dfRightWord = pandas.DataFrame()
+        dfLeftWord  = pandas.DataFrame()
+        dfUnknWord  = pandas.DataFrame()
 
-    sorted = localList[3].groupby(localList[3].Handed)
-    dfRightEle = get_group(sorted, "r")
-    dfLeftEle  = get_group(sorted, "l")
-    dfUnknEle  = get_group(sorted, "u")
+    if len(localList[3]) > 0:
+        sorted = localList[3].groupby(localList[3].Handed)
+        dfRightEle = get_group(sorted, "r")
+        dfLeftEle  = get_group(sorted, "l")
+        dfUnknEle  = get_group(sorted, "u")
+    else:
+        dfRightEle = pandas.DataFrame()
+        dfLeftEle  = pandas.DataFrame()
+        dfUnknEle  = pandas.DataFrame()
 
-    sorted = localList[4].groupby(localList[4].Handed)
-    dfRightLateral = get_group(sorted, "r")
-    dfLeftLateral  = get_group(sorted, "l")
-    dfUnknLateral  = get_group(sorted, "u")
+    if len(localList[4]) > 0:
+        sorted = localList[4].groupby(localList[4].Handed)
+        dfRightLateral = get_group(sorted, "r")
+        dfLeftLateral  = get_group(sorted, "l")
+        dfUnknLateral  = get_group(sorted, "u")
+    else:
+        dfRightLateral = pandas.DataFrame()
+        dfLeftLateral  = pandas.DataFrame()
+        dfUnknLateral  = pandas.DataFrame()
 
-    sorted = localList[5].groupby(localList[5].Handed)
-    dfRightFrontal = get_group(sorted, "r")
-    dfLeftFrontal  = get_group(sorted, "l")
-    dfUnknFrontal  = get_group(sorted, "u")
+    if len(localList[5]) > 0:
+        sorted = localList[5].groupby(localList[5].Handed)
+        dfRightFrontal = get_group(sorted, "r")
+        dfLeftFrontal  = get_group(sorted, "l")
+        dfUnknFrontal  = get_group(sorted, "u")
+    else:
+        dfRightFrontal = pandas.DataFrame()
+        dfLeftFrontal  = pandas.DataFrame()
+        dfUnknFrontal  = pandas.DataFrame()
 
-    sorted = localList[6].groupby(localList[6].Handed)
-    dfRightLoops = get_group(sorted, "r")
-    dfLeftLoops  = get_group(sorted, "l")
-    dfUnknLoops  = get_group(sorted, "u")
-    
+    if len(localList[6]) > 0:
+        sorted = localList[6].groupby(localList[6].Handed)
+        dfRightLoops = get_group(sorted, "r")
+        dfLeftLoops  = get_group(sorted, "l")
+        dfUnknLoops  = get_group(sorted, "u")
+    else:
+        dfRightLoops = pandas.DataFrame()
+        dfLeftLoops  = pandas.DataFrame()
+        dfUnknLoops  = pandas.DataFrame()
+
     rightList = [dfRightName, dfRightSentence, dfRightWord, dfRightEle, dfRightLateral, dfRightFrontal, dfRightLoops]
     leftList  = [dfLeftName, dfLeftSentence, dfLeftWord, dfLeftEle, dfLeftLateral, dfLeftFrontal, dfLeftLoops]
     unknList  = [dfUnknName, dfUnknSentence, dfUnknWord, dfUnknEle, dfUnknLateral, dfUnknFrontal, dfUnknLoops]
@@ -603,7 +830,7 @@ def statistics(localList):
         df_nameGripPressure = pandas.Series(dtype=object)
         df_nameNIVindex     = pandas.Series(dtype=object)
         df_namePenTilt      = pandas.Series(dtype=object)
-        print("\ndf_name ist leer")
+#        print("\ndf_name ist leer")
     else:
         df_nameWritingTime  = checkForNegatives('WritingTime', df_name)
         df_nameWritingSpeed = checkForNegatives('WritingSpeed', df_name)
@@ -622,7 +849,7 @@ def statistics(localList):
         df_sentGripPressure = pandas.Series(dtype=object)
         df_sentNIVindex     = pandas.Series(dtype=object)
         df_sentPenTilt      = pandas.Series(dtype=object)
-        print("\ndf_sent ist leer")
+#        print("\ndf_sent ist leer")
     else:
         df_sentWritingTime  = checkForNegatives('WritingTime', df_sent)
         df_sentWritingSpeed = checkForNegatives('WritingSpeed', df_sent)
@@ -641,7 +868,7 @@ def statistics(localList):
         df_wordGripPressure = pandas.Series(dtype=object)
         df_wordNIVindex     = pandas.Series(dtype=object)
         df_wordPenTilt      = pandas.Series(dtype=object)
-        print("\ndf_word ist leer")
+#        print("\ndf_word ist leer")
     else:
         df_wordWritingTime  = checkForNegatives('WritingTime', df_word)
         df_wordWritingSpeed = checkForNegatives('WritingSpeed', df_word)
@@ -660,7 +887,7 @@ def statistics(localList):
         df_ele_GripPressure = pandas.Series(dtype=object)
         df_ele_NIVindex     = pandas.Series(dtype=object)
         df_ele_PenTilt      = pandas.Series(dtype=object)
-        print("\ndf_ele  ist leer")
+#        print("\ndf_ele  ist leer")
     else:
         df_ele_WritingTime  = checkForNegatives('WritingTime', df_ele)
         df_ele_WritingSpeed = checkForNegatives('WritingSpeed', df_ele)
@@ -679,7 +906,7 @@ def statistics(localList):
         df_lateGripPressure = pandas.Series(dtype=object)
         df_lateNIVindex     = pandas.Series(dtype=object)
         df_latePenTilt      = pandas.Series(dtype=object)
-        print("\ndf_late ist leer")
+#        print("\ndf_late ist leer")
     else:
         df_lateWritingTime  = checkForNegatives('WritingTime', df_late)
         df_lateWritingSpeed = checkForNegatives('WritingSpeed', df_late)
@@ -698,7 +925,7 @@ def statistics(localList):
         df_fronGripPressure = pandas.Series(dtype=object)
         df_fronNIVindex     = pandas.Series(dtype=object)
         df_fronPenTilt      = pandas.Series(dtype=object)
-        print("\ndf_fron ist leer")
+#        print("\ndf_fron ist leer")
     else:
         df_fronWritingTime  = checkForNegatives('WritingTime', df_fron)
         df_fronWritingSpeed = checkForNegatives('WritingSpeed', df_fron)
@@ -710,16 +937,16 @@ def statistics(localList):
 
     df_loops = localList[6]
     if df_loops.empty:
-        df_loopWritingTime   = pandas.Series(dtype=object)
+        df_loopsWritingTime  = pandas.Series(dtype=object)
         df_loopsWritingSpeed = pandas.Series(dtype=object)
         df_loopsWritingFreq  = pandas.Series(dtype=object)
         df_loopsWritingPress = pandas.Series(dtype=object)
         df_loopsGripPressure = pandas.Series(dtype=object)
         df_loopsNIVindex     = pandas.Series(dtype=object)
         df_loopsPenTilt      = pandas.Series(dtype=object)
-        print("\ndf_loops ist leer")
+#        print("\ndf_loops ist leer")
     else:
-        df_loopWritingTime   = checkForNegatives('WritingTime', df_loops)
+        df_loopsWritingTime  = checkForNegatives('WritingTime', df_loops)
         df_loopsWritingSpeed = checkForNegatives('WritingSpeed', df_loops)
         df_loopsWritingFreq  = checkForNegatives('WritingFrequency', df_loops)
         df_loopsWritingPress = checkForNegatives('WritingPressure', df_loops)
@@ -735,7 +962,7 @@ def statistics(localList):
                           -1.0 if len(df_ele_WritingTime) == 0 else df_ele_WritingTime.min(),
                           -1.0 if len(df_lateWritingTime) == 0 else df_lateWritingTime.min(),
                           -1.0 if len(df_fronWritingTime) == 0 else df_fronWritingTime.min(),
-                          -1.0 if len(df_loopWritingTime) == 0 else df_loopWritingTime.min())
+                          -1.0 if len(df_loopsWritingTime) == 0 else df_loopsWritingTime.min())
 
     min_speed = parameters(-1.0 if len(df_nameWritingSpeed) == 0 else df_nameWritingSpeed.min(),
                            -1.0 if len(df_sentWritingSpeed) == 0 else df_sentWritingSpeed.min(),
@@ -793,7 +1020,7 @@ def statistics(localList):
                           -1.0 if len(df_ele_WritingTime) == 0 else df_ele_WritingTime.max(),
                           -1.0 if len(df_lateWritingTime) == 0 else df_lateWritingTime.max(),
                           -1.0 if len(df_fronWritingTime) == 0 else df_fronWritingTime.max(),
-                          -1.0 if len(df_loopWritingTime) == 0 else df_loopWritingTime.max())
+                          -1.0 if len(df_loopsWritingTime) == 0 else df_loopsWritingTime.max())
 
     max_speed = parameters(-1.0 if len(df_nameWritingSpeed) == 0 else df_nameWritingSpeed.max(),
                            -1.0 if len(df_sentWritingSpeed) == 0 else df_sentWritingSpeed.max(),
@@ -851,7 +1078,7 @@ def statistics(localList):
                            -1.0 if len(df_ele_WritingTime) == 0 else df_ele_WritingTime.mean(),
                            -1.0 if len(df_lateWritingTime) == 0 else df_lateWritingTime.mean(),
                            -1.0 if len(df_fronWritingTime) == 0 else df_fronWritingTime.mean(),
-                           -1.0 if len(df_loopWritingTime) == 0 else df_loopWritingTime.mean())
+                           -1.0 if len(df_loopsWritingTime) == 0 else df_loopsWritingTime.mean())
 
     mean_speed = parameters(-1.0 if len(df_nameWritingSpeed) == 0 else df_nameWritingSpeed.mean(),
                             -1.0 if len(df_sentWritingSpeed) == 0 else df_sentWritingSpeed.mean(),
@@ -993,7 +1220,7 @@ def statistics(localList):
     fronNIV_Quant.fillna(value = -1.0, inplace = True)
     fronTiltQuant.fillna(value = -1.0, inplace = True)
 
-    loopsTimeQuant = df_loopWritingTime.quantile(q=[0.25, 0.5, 0.75], interpolation='linear').astype(float)
+    loopsTimeQuant = df_loopsWritingTime.quantile(q=[0.25, 0.5, 0.75], interpolation='linear').astype(float)
     loopsSpeeQuant = df_loopsWritingSpeed.quantile(q=[0.25, 0.5, 0.75], interpolation='linear').astype(float)
     loopsFreqQuant = df_loopsWritingFreq.quantile(q=[0.25, 0.5, 0.75], interpolation='linear').astype(float)
     loopsForceQuant = df_loopsWritingPress.quantile(q=[0.25, 0.5, 0.75], interpolation='linear').astype(float)

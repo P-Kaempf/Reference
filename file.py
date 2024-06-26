@@ -1,6 +1,7 @@
 # This is a Python script.
 import os
 import csv
+import sys
 import traceback
 import numpy as np
 from numpy.polynomial.polynomial import polyfit
@@ -244,7 +245,7 @@ def writeStandard(path, df_Stats, rowList):
                                 0.0, 1.0]
                     writer.writerow(lineList)
             output.close()
-    
+
     except Exception as e:
        tb = traceback.format_exc()
        ui.progressUpdate("-stdout-",
@@ -256,6 +257,17 @@ def writeStandard(path, df_Stats, rowList):
 #
     timeMaximumList = result[1][1]           #  Time is only taken from the Sentence task.
     timeMedianList  = result[1][4]           #  Time is only taken from the Sentence task.
+    medianSentenceTime  = sum(timeMedianList)
+    maximumSentenceTime = sum(timeMaximumList)
+#
+#  If we have no Sentence data, we take the duration from the Word exercise.
+#
+    if medianSentenceTime <= sys.float_info.min:
+        timeMaximumList = result[2][1]           #  Time is now taken from the Word task.
+        timeMedianList  = result[2][4]           #  Time is now taken from the Word task.
+        medianSentenceTime  = sum(timeMedianList)
+        maximumSentenceTime = sum(timeMaximumList)
+
     maximumDict = {}
     quart1Dict  = {}
     quart3Dict  = {}
@@ -275,11 +287,10 @@ def writeStandard(path, df_Stats, rowList):
         with open(filePath, 'w', newline='') as output:     # Overwrites any existing file.
             output.write("ResultType,NormCenter,NormMin,NormMax,Invert,GraphCenter\n")
             writer = csv.writer(output, dialect='unix', delimiter=",", quoting=csv.QUOTE_MINIMAL)
-            medianSentenceTime  = sum(timeMedianList)
-            maximumSentenceTime = sum(timeMaximumList)
             normMax = medianSentenceTime / maximumSentenceTime
             writer.writerow(["duration", 0.5*normMax, 0.0, normMax, 1.0, normMax])
-    
+            print("normMax", 0.5*normMax, 0.0, normMax, 1.0, normMax)
+
             normMin, normMax = relativeToMax(quart1Dict["Pressure"], quart3Dict["Pressure"], maximumDict["Pressure"])
             normMed = 0.5 * (normMax + normMin)
             writer.writerow(["writingPressure", normMed, normMin, normMax, 1.0, normMax])
